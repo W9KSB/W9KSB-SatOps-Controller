@@ -166,6 +166,97 @@ This allows SDR software such as SDR++ to be controlled directly by SatPC32 with
 * rotctld compatible rotor
 * SatPC32 on Windows
 
+
+# 🔌 Wiring & Pinout
+
+Below is the reference wiring configuration used for the **W9KSB SatOps Controller**.
+
+> ⚠️ GPIO numbers use **BCM numbering**, not physical pin numbers.
+
+---
+
+# 📟 LCD (20x4 I2C)
+
+The controller uses a standard **HD44780-compatible 20x4 LCD with an I2C backpack**.
+
+| LCD Pin | Raspberry Pi Pin | Notes |
+|--------|------------------|------|
+| VCC | 5V | LCD power |
+| GND | GND | Common ground |
+| SDA | GPIO 2 | I2C data |
+| SCL | GPIO 3 | I2C clock |
+
+Default I2C address:
+
+```
+0x27
+```
+
+If your display does not respond, run:
+
+```
+i2cdetect -y 1
+```
+
+to discover the address.
+
+---
+
+# 🎛 Rotary Encoder (EC11)
+
+The controller uses a **standard mechanical EC11 rotary encoder with push button**.
+
+The encoder **does not require a VCC pin** — it simply shorts signal lines to ground.
+
+## Encoder Rotation Pins
+
+| Encoder Pin | Raspberry Pi Pin | Notes |
+|-------------|------------------|------|
+| A (CLK) | GPIO 17 | Input with internal pull‑up |
+| B (DT) | GPIO 27 | Input with internal pull‑up |
+| Common | GND | Shared ground |
+
+## Encoder Push Button
+
+| Encoder Pin | Raspberry Pi Pin | Notes |
+|-------------|------------------|------|
+| SW | GPIO 22 | Button input with internal pull‑up |
+| SW GND | GND | Shared ground |
+
+---
+
+# 🧠 GPIO Summary
+
+| Function | GPIO |
+|----------|------|
+| Encoder A | GPIO 17 |
+| Encoder B | GPIO 27 |
+| Encoder Button | GPIO 22 |
+| LCD SDA | GPIO 2 |
+| LCD SCL | GPIO 3 |
+
+---
+
+# 📍 Raspberry Pi Header Reference
+
+```
+3V3  (1) (2) 5V
+GPIO2(3) (4) 5V
+GPIO3(5) (6) GND
+GPIO4(7) (8) GPIO14
+GND  (9) (10)GPIO15
+GPIO17(11)(12)GPIO18
+GPIO27(13)(14)GND
+GPIO22(15)(16)GPIO23
+3V3 (17) (18)GPIO24
+GPIO10(19)(20)GND
+GPIO9 (21)(22)GPIO25
+GPIO11(23)(24)GPIO8
+GND (25) (26)GPIO7
+```
+
+Pins used by the controller are highlighted in the wiring tables above.
+
 ---
 
 # Installation
